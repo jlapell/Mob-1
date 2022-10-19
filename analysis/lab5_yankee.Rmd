@@ -103,6 +103,11 @@ dn_lq_ak_mindist = dn_lq_ak %>% group_by(address.x) %>%
 ```
 
 8. Describe the distribution of the distances Denny’s and the nearest La Quinta locations in Alaska. Also include an appropriate visualization and relevant summary statistics.
+```{r}
+mean(dn_lq_ak_mindist$closest)
+median(dn_lq_ak_mindist$closest)
+hist(dn_lq_ak_mindist$closest, main = "Distance to La Quintas", xlab = "Distance(km)", xlim = c(0,8))
+```
 
 9. Repeat the same analysis for North Carolina: 
 (i) filter Denny’s and La Quinta Data Frames for NC, 
