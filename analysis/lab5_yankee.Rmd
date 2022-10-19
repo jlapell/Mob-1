@@ -111,12 +111,50 @@ hist(dn_lq_ak_mindist$closest, main = "Distance to La Quintas", xlab = "Distance
 
 9. Repeat the same analysis for North Carolina: 
 (i) filter Denny’s and La Quinta Data Frames for NC, 
+```{r}
+dn_nc = dennys %>% filter(state == "NC")
+nrow(dn_nc)
+
+lq_nc = laquinta %>% filter(state == "NC")
+nrow(lq_nc)
+```
+
 (ii) join these data frames to get a completelist of all possible pairings, 
+```{r}
+dn_lq_nc <- full_join(dn_nc, lq_nc, by = "state")
+nrow(dn_lq_nc)
+```
+
 (iii) calculate the distances between all possible pairings of Denny’s and La Quinta in NC, 
+```{r}
+dn_lq_nc = dn_lq_nc %>% mutate(distance = haversine(longitude.x, latitude.x, longitude.y, latitude.y))
+```
+
 (iv) find the minimum distance between each Denny’s and La Quinta location, 
+```{r}
+dn_lq_nc_mindist = dn_lq_nc %>% group_by(address.x) %>%
+  summarise(closest = min(distance))
+```
+
 (v) visualize and describe the distribution of these shortest distances using appropriate summary statistics.
+```{r}
+mean(dn_lq_nc_mindist$closest)
+median(dn_lq_nc_mindist$closest)
+hist(dn_lq_nc_mindist$closest, main = "Distance to La Quintas", xlab = "Distance(km)", breaks=10)
+```
+
 
 10. Repeat the same analysis for Texas.
+```{r}
+dn_tx = dennys %>% filter(state == "TX")
+nrow(dn_tx)
+
+lq_tx = laquinta %>% filter(state == "TX")
+nrow(lq_tx)
+
+dn_lq_nc <- full_join(dn_nc, lq_nc, by = "state")
+nrow(dn_lq_nc)
+```
 
 11. Repeat the same analysis for a state of your choosing, different than the ones we covered so far.
 
