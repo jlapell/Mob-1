@@ -164,6 +164,27 @@ hist(dn_lq_tx_mindist$closest, main = "Distance to La Quintas", xlab = "Distance
 ```
 
 11. Repeat the same analysis for a state of your choosing, different than the ones we covered so far.
+Take California.
+```{r}
+dn_ca = dennys %>% filter(state == "CA")
+nrow(dn_ca)
 
+lq_ca = laquinta %>% filter(state == "CA")
+nrow(lq_ca)
+
+dn_lq_ca <- full_join(dn_ca, lq_ca, by = "state")
+nrow(dn_lq_ca)
+
+dn_lq_ca = dn_lq_ca %>% mutate(distance = haversine(longitude.x, latitude.x, longitude.y, latitude.y))
+dn_lq_ca_mindist = dn_lq_ca %>% group_by(address.x) %>%
+  summarise(closest = min(distance))
+
+mean(dn_lq_ca_mindist$closest)
+median(dn_lq_ca_mindist$closest)
+hist(dn_lq_ca_mindist$closest, main = "Distance to La Quintas", xlab = "Distance(km)", breaks=10)
+```
 
 12. Among the states you examined, where is Mitch Hedberg’s joke most likely to hold true? Explain your reasoning.
+Hedberg's joke holds especially well in Texas, where the mean distance from Denny's to the closest La Quinta's is only 5.7 km (and median 3.3). This is almost within walking distance.
+While the other data for North Carolina and California are still skewed right, the mean and median are not quite as low, so the joke doesn't hold quite as well.
+In Alaska, the joke technically holds given the closest distances, but since there are only 3 Denny's, it's not overly applicable.
