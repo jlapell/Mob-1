@@ -143,7 +143,6 @@ median(dn_lq_nc_mindist$closest)
 hist(dn_lq_nc_mindist$closest, main = "Distance to La Quintas", xlab = "Distance(km)", breaks=10)
 ```
 
-
 10. Repeat the same analysis for Texas.
 ```{r}
 dn_tx = dennys %>% filter(state == "TX")
@@ -152,10 +151,19 @@ nrow(dn_tx)
 lq_tx = laquinta %>% filter(state == "TX")
 nrow(lq_tx)
 
-dn_lq_nc <- full_join(dn_nc, lq_nc, by = "state")
-nrow(dn_lq_nc)
+dn_lq_tx <- full_join(dn_tx, lq_tx, by = "state")
+nrow(dn_lq_tx)
+
+dn_lq_tx = dn_lq_tx %>% mutate(distance = haversine(longitude.x, latitude.x, longitude.y, latitude.y))
+dn_lq_tx_mindist = dn_lq_tx %>% group_by(address.x) %>%
+  summarise(closest = min(distance))
+
+mean(dn_lq_tx_mindist$closest)
+median(dn_lq_tx_mindist$closest)
+hist(dn_lq_tx_mindist$closest, main = "Distance to La Quintas", xlab = "Distance(km)", breaks=10)
 ```
 
 11. Repeat the same analysis for a state of your choosing, different than the ones we covered so far.
+
 
 12. Among the states you examined, where is Mitch Hedberg’s joke most likely to hold true? Explain your reasoning.
