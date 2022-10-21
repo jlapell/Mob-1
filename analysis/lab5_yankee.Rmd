@@ -197,13 +197,20 @@ Compare the distance from Denny's to La Quinta to other fast foods to La Quinta.
 ```{r}
 fastfood = read_csv(here("data_raw", "FastFoodRestaurants.csv")) %>% clean_names %>%
   mutate(state = province) %>% select(address, city, state, postal_code, country, latitude, longitude, name)
-fastfood_tx_mcd = fastfood %>% filter(state == "TX", startsWith(name, "McDonald"))
-lq_tx_sample = lq_tx %>% slice_sample(n = nrow(fastfood_tx_mcd))
+mcd_tx = fastfood %>% filter(state == "TX", startsWith(name, "McDonald"))
+lq_tx_sample = lq_tx %>% slice_sample(n = nrow(mcd_tx))
 
-lq_mcd_tx = full_join(lq_tx_sample, fastfood_tx_mcd, by = "state")
-nrow(lq_mcd_tx)
+mcd_lq_tx = full_join(mcd_tx, lq_tx_sample, by = "state")
+nrow(mcd_lq_tx)
 
+mcd_lq_tx = mcd_lq_tx %>% mutate(distance = haversine(longitude.x, latitude.x, longitude.y, latitude.y))
+# the last filter step is because there is an extreme outlier
+mcd_lq_tx_mindist = mcd_lq_tx %>% group_by(address.x) %>%
+  summarise(closest = min(distance)) %>% filter(closest < 6000)
 
+mean(mcd_lq_tx_mindist$closest)
+median(mcd_lq_tx_mindist$closest)
+hist(mcd_lq_tx_mindist$closest, main = "Distance to La Quintas", xlab = "Distance(km)", breaks=10)
 
 ```
 
