@@ -9,6 +9,8 @@ date: "2022-10-18"
 ```{r}
 library(tidyverse)
 library(dsbox)
+library(here)
+library(janitor)
 ```
 
 1. Filter the Denny’s dataframe for Alaska (AK) and save the result as dn_ak. How many Denny’s locations are there in Alaska?
@@ -188,3 +190,20 @@ hist(dn_lq_ca_mindist$closest, main = "Distance to La Quintas", xlab = "Distance
 Hedberg's joke holds especially well in Texas, where the mean distance from Denny's to the closest La Quinta's is only 5.7 km (and median 3.3). This is almost within walking distance.
 While the other data for North Carolina and California are still skewed right, the mean and median are not quite as low, so the joke doesn't hold quite as well.
 In Alaska, the joke technically holds given the closest distances, but since there are only 3 Denny's, it's not overly applicable.
+
+## Compare to other fast food restaurants
+Compare the distance from Denny's to La Quinta to other fast foods to La Quinta. Select a sample of locations of these fast food restaurants that is comparable in size to the number of Denny's, in order to make a fair comparison.
+
+```{r}
+fastfood = read_csv(here("data_raw", "FastFoodRestaurants.csv")) %>% clean_names %>%
+  mutate(state = province) %>% select(address, city, state, postal_code, country, latitude, longitude, name)
+fastfood_tx_mcd = fastfood %>% filter(state == "TX", startsWith(name, "McDonald"))
+lq_tx_sample = lq_tx %>% slice_sample(n = nrow(fastfood_tx_mcd))
+
+lq_mcd_tx = full_join(lq_tx_sample, fastfood_tx_mcd, by = "state")
+nrow(lq_mcd_tx)
+
+
+
+```
+
