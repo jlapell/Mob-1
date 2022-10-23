@@ -211,6 +211,17 @@ mcd_lq_tx_mindist = mcd_lq_tx %>% group_by(address.x) %>%
 mean(mcd_lq_tx_mindist$closest)
 median(mcd_lq_tx_mindist$closest)
 hist(mcd_lq_tx_mindist$closest, main = "Distance to La Quintas", xlab = "Distance(km)", breaks=10)
+```
 
+I had a bit of trouble creating two overlapping histograms. First I had to merge the dataframes of mindists of Denny's to La Quintas and McDonalds to La Quintas. To do this I had to make them the same size, so I took a random sample of 151 Denny's. Before binding I also renamed the columns to be able to differentiate whether it was a Denny's or a McDonalds.
+
+```{r}  
+dn_lq_tx_mindist_sample = sample_n(dn_lq_tx_mindist, 151)
+dn_lq_mcd_tx_mindist = rename(mcd_lq_tx_mindist, closest1= closest, address.x1 = address.x) %>% cbind(dn_lq_tx_mindist_sample)
+
+ggplot() +
+  geom_histogram(dn_lq_mcd_tx_mindist, mapping = aes(closest), fill = "red", alpha = .2) +
+  geom_histogram(dn_lq_mcd_tx_mindist, mapping = aes(closest1), fill = "blue", alpha = .2) 
+### Red is Denny's and blue is McDonalds
 ```
 
