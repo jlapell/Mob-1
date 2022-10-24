@@ -217,11 +217,10 @@ I had a bit of trouble creating two overlapping histograms. First I had to merge
 
 ```{r}  
 dn_lq_tx_mindist_sample = sample_n(dn_lq_tx_mindist, 151)
-dn_lq_mcd_tx_mindist = rename(mcd_lq_tx_mindist, closest1= closest, address.x1 = address.x) %>% cbind(dn_lq_tx_mindist_sample)
-
 ggplot() +
-  geom_histogram(dn_lq_mcd_tx_mindist, mapping = aes(closest), fill = "red", alpha = .2) +
-  geom_histogram(dn_lq_mcd_tx_mindist, mapping = aes(closest1), fill = "blue", alpha = .2) 
+  geom_histogram(dn_lq_tx_mindist_sample, mapping = aes(closest), fill = "red", alpha = .2) +
+  geom_histogram(mcd_lq_tx_mindist, mapping = aes(closest), fill = "blue", alpha = .2) 
 ### Red is Denny's and blue is McDonalds
 ```
+
 
