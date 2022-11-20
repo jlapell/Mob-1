@@ -1,0 +1,23 @@
+---
+title: "Metro Station / Bikeshare Analysis"
+output: html_notebook
+date: "2022-11-20"
+---
+
+## Load packages and data
+```{r}
+library(tidyverse)
+library(here)
+library(janitor)
+library(lubridate)
+library(sf)
+library(tmap)
+library(geojsonsf)
+
+bikeshare = read_csv(here("data_raw", "202209-capitalbikeshare-tripdata.zip")) %>%
+  clean_names()
+metro_stations = geojson_sf(here("data_raw", "dc_metro_stations.geojson")) %>%
+  clean_names()
+
+```
+
