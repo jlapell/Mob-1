@@ -22,7 +22,7 @@ metro_stations = read_csv(here("data_raw", "Metro_Stations_in_DC.csv")) %>%
 
 # Just doing a sample for a monday, this is for September 5, 2022, the first monday of the month.
 ```{r}
-bikeshare1 = bikeshare %>% filter(grepl("2022-09-05 ", started_at)) %>% select(end_station_name,lat = end_lat, lng = end_lng) %>% na.omit() 
+bikeshare1 = bikeshare %>% select(end_station_name,lat = end_lat, lng = end_lng) %>% na.omit() 
 metro_stations1 = metro_stations %>% select(end_station_name = name, lat = y, lng = x) %>% na.omit()
 ```
 
@@ -38,11 +38,22 @@ bikeshare1$close_station <- as.character(metro_stations1$end_station_name[closes
 bikeshare1$distance <- apply(distmatrix, 1, min)/1000
 ```
 
-# Counts the amount of bikes parked within .1524km/500ft, close enough to consider bike being used for final mile.
+# Counts the amount of bikes parked within .04572km/150ft, close enough to consider bike being used for final mile.
 ```{r}
-final_mile = bikeshare1 %>% filter(distance < .1524)
+final_mile = bikeshare1 %>% filter(distance < .04572) %>% select(-lat, -lng)
 nrow(final_mile)
 ```
 
+```{r}
+library(geojsonsf)
+metro_stations_sf = metro_stations = geojson_sf(here("data_raw", "dc_metro_stations.geojson")) %>%
+  clean_names() %>% select(close_station = name, metro_location = geometry)
+final_mile = final_mile %>% dplyr::group_by(end_station_name, close_station, distance) %>% 
+  dplyr::summarise(count = n(), .groups='drop')
+final_mile = left_join(final_mile, metro_stations_sf, by="close_station")
+```
 
+- convert to sf and do some sort of spatial plot
+- density plot/histogram from count
+- find start location of bikeshare close to metro station - if distance start to end < 1 mile then use that - find which metro station/bikeshare combination has most users
 
