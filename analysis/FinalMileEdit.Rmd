@@ -70,7 +70,7 @@ new = left_join(final_mile, bikeshare_end, by = "ride_id")
 
 ```{r}
 final_mile1 = new %>% mutate(start_to_end = haversine(slng, slat, elng, elat))
-final_mile1 = final_mile1 %>% filter(start_to_end <= 1 & start_to_end != 0) %>% select(ride_id, close_station, distance, start_to_end)
+final_mile1 = final_mile1 %>% filter(start_to_end <= 1.60934 & start_to_end != 0) %>% select(ride_id, close_station, distance, start_to_end)
 ```
 
 
