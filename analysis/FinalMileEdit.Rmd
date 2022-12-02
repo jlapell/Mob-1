@@ -73,17 +73,19 @@ final_mile1 = new %>% mutate(start_to_end = haversine(slng, slat, elng, elat))
 final_mile1 = final_mile1 %>% filter(start_to_end <= 1.60934 & start_to_end != 0) %>% select(ride_id, close_station, distance, start_to_end)
 ```
 
-
+Make all of the data frames that we'll use for analysis.
 ```{r}
+final_mile1_grouped = final_mile1 %>% group_by(close_station) %>% 
+  summarise(count = n(), avg_distance_to_bikeshare = mean(distance), 
+            avg_ride_distance = mean(start_to_end))
 library(geojsonsf)
 metro_stations_sf = metro_stations = geojson_sf(here("data_raw", "dc_metro_stations.geojson")) %>%
   clean_names() %>% select(close_station = name, metro_location = geometry)
-final_mile = final_mile %>% dplyr::group_by(end_station_name, close_station, distance) %>% 
-  dplyr::summarise(count = n(), .groups='drop')
-final_mile = left_join(final_mile, metro_stations_sf, by="close_station")
+final_mile1_geo = left_join(final_mile1_grouped, metro_stations_sf, by="close_station")
+final_mile1_geo = st_as_sf(x = final_mile1_geo, crs = st_crs(metro_stations_sf))
 ```
 
-- convert to sf and do some sort of spatial plot
-- density plot/histogram from count
-- find start location of bikeshare close to metro station - if distance start to end < 1 mile then use that - find which metro station/bikeshare combination has most users
-
+* Analyze grouped data frame through distributions and comparing counts and average distances - Tyler.
+* Visualizations: lines from start to end point for final mile rides, density distributions from above - Tyler.
+* Join LODES job data with bikeshare end points that fall within final mile category - see if areas with more jobs also have more final mile rides - Joseph.
+* Calculate proportion of rides within 500 ft of a station that are final mile rides - Minsum.
