@@ -86,3 +86,36 @@ final_mile1 = new %>% mutate(start_to_end = haversine(slng, slat, elng, elat))
 final_mile1 = final_mile1 %>% filter(start_to_end <= 1.60934 & start_to_end != 0) %>% select(ride_id, close_station, distance, start_to_end)
 ```
 
+Make the data frames that we'll use for analysis.
+```{r}
+final_mile1_grouped = final_mile1 %>% group_by(close_station) %>% 
+  summarise(count = n(), avg_distance_to_bikeshare = mean(distance), 
+            avg_ride_distance = mean(start_to_end))
+```
+
+New analyze start
+Goal : Calculate proportion of rides within 500 ft of a station that are final mile rides
+
+Get a ride which rides are not limited by 1 mile (original data) and group by close station, make a one data frame.
+```{r}
+final_mile2 = new %>% mutate(start_to_end = haversine(slng, slat, elng, elat))
+final_mile2 = final_mile2 %>% filter(start_to_end != 0) %>% select(ride_id, close_station, distance, start_to_end)
+final_mile2_grouped = final_mile2 %>% group_by(close_station) %>% 
+  summarise(count = n(), avg_distance_to_bikeshare = mean(distance), 
+            avg_ride_distance = mean(start_to_end))
+final_mile3 = inner_join(final_mile1_grouped, final_mile2_grouped, by="close_station")
+final_mile3 <- final_mile3 %>% mutate(proportion = count.x/count.y)
+```
+
+Visualize for the proportion of final mile rides which is less than 1 mile grouped by close station
+```{r}
+final_mile3 %>% ggplot(aes(x=reorder(close_station,-proportion))) + 
+  geom_bar(aes(weight=proportion)) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  labs(title = "the proportion of final mile rides which is less than 1 mile", 
+       x = "Metro Station", 
+       y = "Proportion of Final Mile Rides",
+       caption = "Sample of bikeshare data is from September 2022.") +
+  scale_x_discrete(label = function(x) stringr::str_trunc(x, 20))
+```
+
