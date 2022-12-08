@@ -1,0 +1,48 @@
+---
+title: "Team Contribution Report"
+output: pdf_document
+author: "Tyler Yankee, Joseph LaPell, Minsum Kim"
+date: "2022-12-08"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# General Overview of Project
+
+Our group's part of the bikeshare data analysis attempted to determine the extent to which people in Washington D.C. use the Capital Bikeshare system for the "final mile" of their commute to work; that is, they ride the metro for the majority of their commute, get off the metro and get a bike nearby, and use that bike for a short ride to make up the remainder of their commute. 
+## Assumptions
+
+The following assumptions were made in conducting this analysis:
+
+* Data was taken from September 2022 Capital Bikeshare; a more representative analysis would have taken into account other parts of the year. 
+* We enforced that the metro station and the start bikeshare station were within 500 ft of each other, and that the bike ride was less than 1 mile. 
+* Every ride that fits these constraints was a "final mile" ride (i.e., pertaining to that person's commute). This is the major assumption that could damage the validity of the analysis as it is not necessarily true in all cases.
+
+## Breakdown and File Structure
+
+The analysis was segmented into three major parts:
+
+* Analyze grouped data on metro stations through distributions and comparing counts and average distances. Visualize these through density plots, histograms, bar plots, and maps. (Done in `FinalMile_Stations.Rmd`.)
+* Join LODES job data with bikeshare end points that fall within the "final mile" category to determine if areas with more jobs also have more "final mile" rides. (Done in `FinalMile_LaPell.Rmd`.)
+* Calculate proportion of rides within 500 ft of a station that are final mile rides. Compare this proportion across different metro stations. (Done in `FinalMile_proportion of rides.Rmd`.)
+
+The base of all of the analysis was done in `FinalMile_Original.Rmd`.
+
+
+# Member Contributions
+
+## Tyler Yankee
+
+
+
+
+## Joseph LaPell
+
+
+
+## Minsum Kim
+
+
+
