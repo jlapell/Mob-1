@@ -51,7 +51,9 @@ In addition, the key data frames for analysis are output to csv in the data/ dir
 
 ## Joseph LaPell
 
+My contributions to this project included the second bullet point under "Breakdown," where I joined the LODES data with Final Mile data and created some visualizations for it. Along with that, I also had a part in creating the FinalMileOriginal.Rmd, i.e. creating the dataframe that contained bike ride start points within 500 feet of a station, then creating another dataframe that contained rides that were under a mile from start to end.
 
+After combining and analyzing the LODES/bike-ride data, there wasn't much to take away. If the individual rides had more information, such as different characteristics of the rider, it would be easier to compare with the LODES data. If there were characteristics such as age, gender, race, etc. connected with the bikeshare data, I would be able to filter the job data and compare it with the bikeshare data and possibly draw a conclusion. The fact is though, that there are already a few assumptions being made. One of these assumptions include that every bike start point within 500 feet of a metro station is someone who got off the metro. That being said it is hard to draw any concrete conclusions from the data, but it still is interesting to look at the visualizations. 
 
 ## Minsum Kim
 
