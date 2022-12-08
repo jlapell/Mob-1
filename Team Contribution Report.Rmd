@@ -35,7 +35,18 @@ The base of all of the analysis was done in `FinalMile_Original.Rmd`.
 
 ## Tyler Yankee
 
+I was responsible for the first bullet point above under "Breakdown." I worked on `FinalMile_Stations.Rmd`, which builds on `FinalMile_Original` by grouping the data by metro station. The following questions are addressed in this file through mostly exploratory analysis:
 
+* Which metro station(s) are the most popular for "final mile" rides? (Bar plot and map)
+* How many bikeshare stations are within 500 ft of each metro station, and how far away are they (faceted histogram and map)?
+* How far is the average "final mile" ride from each metro station? What is the distribution of this distance?
+
+In addition, the key data frames for analysis are output to csv in the data/ directory:
+
+* final_mile_rides.csv: For each "final mile" bikeshare ride, show the name of the metro station within 500 ft, the name of the starting bikeshare station, the distance between the stations, and the bike ride distance.
+* final_mile_metro.csv: For each metro station, show the name, the number of "final mile" rides which stemmed from the given metro station, the average distance from the metro to the bikeshare station, and the average distance of the ensuing bike ride.
+* final_mile_metro.geojson: Same as the above .csv, but formatted as a .geojson with the point geometry listed for each metro station.
+* close_metro_bikeshare_stations.geojson: All pairings of metro stations and bikeshare stations in Washington D.C which are within 500 ft of each other.
 
 
 ## Joseph LaPell
