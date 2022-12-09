@@ -118,4 +118,5 @@ final_mile3 %>% ggplot(aes(x=reorder(close_station,-proportion))) +
        caption = "Sample of bikeshare data is from September 2022.") +
   scale_x_discrete(label = function(x) stringr::str_trunc(x, 20))
 ```
-
+If proportion is close to 1, that means the majority of people after getting of metro use bikeshare system to make up 'the remainder of their 
+commute'(Final miles). Farragut West have the highest proportion(almost close to 1), that means almost all of people who arrive this station use bikeshare as their remainder of commute. 

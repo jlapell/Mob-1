@@ -56,6 +56,6 @@ My contributions to this project included the second bullet point under "Breakdo
 After combining and analyzing the LODES/bike-ride data, there wasn't much to take away. If the individual rides had more information, such as different characteristics of the rider, it would be easier to compare with the LODES data. If there were characteristics such as age, gender, race, etc. connected with the bikeshare data, I would be able to filter the job data and compare it with the bikeshare data and possibly draw a conclusion. The fact is though, that there are already a few assumptions being made. One of these assumptions include that every bike start point within 500 feet of a metro station is someone who got off the metro. That being said it is hard to draw any concrete conclusions from the data, but it still is interesting to look at the visualizations. 
 
 ## Minsum Kim
+Looking for the definition of Final miles, they have two conditions. one is the bikeshare station should exist nearby in 500ft from the metro station, and second is the total ride distance should not be over 1 mile. I calculate the proportion of rides which is less than 1 mile, in other words the proportion of final mile rides. 
 
-
-
+I filtered the data, one is limited by 1 mile, and the other is not limited by 1 mile, and calculated proportion and grouped by metro station. 
