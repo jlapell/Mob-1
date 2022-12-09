@@ -103,7 +103,7 @@ final_mile2 = final_mile2 %>% filter(start_to_end != 0) %>% select(ride_id, clos
 final_mile2_grouped = final_mile2 %>% group_by(close_station) %>% 
   summarise(count = n(), avg_distance_to_bikeshare = mean(distance), 
             avg_ride_distance = mean(start_to_end))
-final_mile3 = inner_join(final_mile1_grouped, final_mile2_grouped, by="close_station")
+final_mile3 = full_join(final_mile1_grouped, final_mile2_grouped, by="close_station")
 final_mile3 <- final_mile3 %>% mutate(proportion = count.x/count.y)
 ```
 
@@ -118,5 +118,8 @@ final_mile3 %>% ggplot(aes(x=reorder(close_station,-proportion))) +
        caption = "Sample of bikeshare data is from September 2022.") +
   scale_x_discrete(label = function(x) stringr::str_trunc(x, 20))
 ```
-If proportion is close to 1, that means the majority of people after getting of metro use bikeshare system to make up 'the remainder of their 
-commute'(Final miles). Farragut West have the highest proportion(almost close to 1), that means almost all of people who arrive this station use bikeshare as their remainder of commute. 
+If proportion is close to 1, that means the majority of people after getting of metro use bikeshare system to make up 'the remainder of their commute'(Final miles). Farragut West have the highest proportion(almost close to 1), that means almost all of people who arrive this station use bikeshare as their remainder of commute. Another metros's proportion are usually between 0.25~0.75.
+*NoMa-Gallaudet U's proportion is 0, I saw the data about this metro and I found this metro have not data for final mile(rides less than 1 mile), but have only one observation which ride is more than 1 mile(not Final mile).
+
+
+
